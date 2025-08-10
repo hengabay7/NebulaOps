@@ -1,0 +1,17 @@
+/* Global font settings for the whole site */
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, 
+               'Noto Sans', 'Noto Sans Hebrew', 'Apple Color Emoji', 
+               'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+/* Card shadow for a cleaner look */
+.card {
+  border: none;
+  border-radius: 10px;
+}
+
+/* Footer styling */
+footer {
+  font-size: 0.9rem;
+}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="h4 mb-2">Weather in {{ city }}{% if country %}, {{ country }}{% endif %}</h2>
+        <p class="mb-1">Condition: <strong>{{ main }}</strong> — {{ description }}</p>
+        <p class="mb-1">Temperature: <strong>{{ temp_c }}°C</strong>{% if feels_c is not none %} (feels like {{ feels_c }}°C){% endif %}</p>
+        <hr>
+        <h3 class="h5">Recommendation:</h3>
+        <p class="fs-5">{{ activity }}</p>
+        <a class="btn btn-outline-secondary mt-2" href="/">Back</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

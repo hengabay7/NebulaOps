@@ -1,18 +1,24 @@
-<!doctype html>
-<html lang="he">
-<head>
-    <meta charset="utf-8">
-    <title>ברוך הבא</title>
-</head>
-<body>
-    <h1>הכנס את שמך:</h1>
-    <form method="post" action="/greet">
-        <input type="text" name="name">
-        <button type="submit">שלח</button>
-    </form>
-    {% if error %}
-        <p style="color:red;">{{ error }}</p>
-    {% endif %}
-</body>
-</html>
-
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h4 mb-3">Check the weather and get an activity suggestion</h1>
+        <form method="post" action="/recommend" class="row g-3">
+          <div class="col-12">
+            <label for="city" class="form-label">City Name</label>
+            <input type="text" class="form-control" id="city" name="city" placeholder="e.g., Tel Aviv" required>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary w-100">Give me an idea 🎯</button>
+          </div>
+        </form>
+        {% if error %}
+          <div class="alert alert-danger mt-3" role="alert">{{ error }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
