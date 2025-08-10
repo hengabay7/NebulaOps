@@ -3,7 +3,7 @@ from flask import Flask, render_template, request
 from dotenv import load_dotenv
 from services.weather import get_weather_and_activity
 
-# Load variables from .env
+
 load_dotenv()
 
 def create_app():
@@ -25,9 +25,13 @@ def create_app():
         except Exception as e:
             return render_template('index.html', error=f"Error fetching weather data: {e}")
 
+    @app.get('/health')
+    def health():
+        return {"status": "ok"}, 200
+
     return app
 
-# Create the app instance so Flask CLI can find it
+
 app = create_app()
 
 if __name__ == '__main__':
