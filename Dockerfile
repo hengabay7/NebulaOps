@@ -1,19 +1,23 @@
-FROM python:3.12-slim AS base
+FROM python:3.10-slim
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
-    
+# Install system dependencies
+RUN apt-get update && apt-get install -y gcc wget curl
+
+# Set working directory
 WORKDIR /app
-RUN apt-get update && apt-get install -y --no-install-recommends curl \
-    && rm -rf /var/lib/apt/lists/*
 
+# Copy requirements
 COPY requirements.txt .
+
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy the entire project
 COPY . .
 
-RUN useradd -m appuser
-USER appuser
-
+# Expose port
 EXPOSE 5000
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "--workers", "2", "--threads", "4", "app:app"]
+
+# Run app with Gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+
