@@ -1,0 +1,24 @@
+replicaCount: 1
+
+image:
+  repository: hengabay7/weather-mood
+  tag: latest
+  
+containerPort: 5000
+
+service:
+  port: 5000
+
+ingress:
+  host: weather.local
+
+resources:
+  requests:
+    cpu: "100m"
+  limits:
+    cpu: "200m"
+
+hpa:
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPU: 50

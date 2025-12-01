@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "weather-chart.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "weather-chart.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "weather-chart.name" . }}
+    spec:
+      containers:
+        - name: weather-app
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          env:
+            - name: OPENWEATHER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: weather-secret
+                  key: apiKey
+
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.containerPort }}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.containerPort }}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 5
