@@ -2,7 +2,7 @@ name: CD to Kubernetes
 
 on:
   push:
-    branches: ["main"]
+    branches: ["master"]
 
 jobs:
   deploy:
@@ -23,15 +23,6 @@ jobs:
           curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
           chmod +x kubectl
           sudo mv kubectl /usr/local/bin/
-
-      - name: Install yq (YAML CLI tool)
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y yq
-
-      - name: Update Deployment image
-        run: |
-          yq -i '.spec.template.spec.containers[0].image = "${{ secrets.DOCKERHUB_USERNAME }}/weather-mood:latest"' k8s/deployment.yml
 
       - name: Apply Kubernetes manifests
         run: |
