@@ -1,1 +1,32 @@
-hello
+# Weather Activity Recommender ☀️🌧️❄️  
+A production-grade DevOps project showcasing a full CI/CD pipeline, containerization, Kubernetes orchestration, Helm deployment, autoscaling (HPA), and ingress routing.
+
+This project provides a weather-based activity recommendation application built with **Flask**, served using **Gunicorn**, containerized with **Docker**, deployed on **Kubernetes**, and managed via **Helm Charts**.
+
+---
+
+## 🚀 Features
+
+### 🌤️ Application Features
+- Input a city name and get:
+  - Live weather data (OpenWeather API)
+  - Automatic activity recommendations (beach, coffee, gym, etc.)
+- Flask backend served with Gunicorn
+- Responsive UI using HTML templates
+
+### 🧰 DevOps Features
+- **Dockerized application**
+- **GitHub Actions CI/CD**
+  - Build & push Docker image to Docker Hub
+  - Deploy automatically to Kubernetes
+- **Minikube-based Kubernetes environment**
+- **NGINX Ingress** with local domain: `http://weather.local`
+- **Horizontal Pod Autoscaler (HPA)** with CPU-based scaling
+- **Liveness & Readiness probes**
+- **Helm Chart** for modular + production-ready deployment
+- **Separation of configuration using Values.yaml**
+
+---
+
+## 🏗️ System Architecture
+
