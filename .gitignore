@@ -1,5 +1,41 @@
-venv/
+# ===== Secrets / Credentials =====
+*.env
+.env
+.env.*
+*.secret
+*.secrets
+*.key
+*.pem
+*.pfx
+*.p12
+*.crt
+*.cer
+*.b64
+kubeconfig*
+id_rsa*
+id_ed25519*
+*.kubeconfig
+
+# ===== Cloud / IaC sensitive =====
+*.tfstate
+*.tfstate.*
+.terraform/
+terraform.tfvars
+*.tfvars
+
+# ===== Logs / Debug =====
+*.log
+logs/
+*.out
+
+# ===== OS / IDE =====
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ===== Python cache =====
 __pycache__/
 *.pyc
-.env
-
+.venv/
+venv/
