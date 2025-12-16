@@ -11,15 +11,17 @@ jobs:
     permissions:
       contents: read
 
+    env:
+      KUBECONFIG: ${{ github.workspace }}/kubeconfig
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Load kubeconfig securely
         run: |
-          echo "${{ secrets.KUBE_CONFIG_B64 }}" | base64 -d > kubeconfig
-          chmod 600 kubeconfig
-          export KUBECONFIG=$PWD/kubeconfig
+          echo "${{ secrets.KUBE_CONFIG_B64 }}" | base64 -d > "$KUBECONFIG"
+          chmod 600 "$KUBECONFIG"
 
       - name: Deploy manifests to Kubernetes
         run: |
@@ -27,4 +29,4 @@ jobs:
 
       - name: Cleanup kubeconfig
         if: always()
-        run: rm -f kubeconfig
+        run: rm -f "$KUBECONFIG"
