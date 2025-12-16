@@ -1,4 +1,4 @@
-name: CD - Deploy to Kubernetes
+name: CD- Deploy to Kubernetes
 
 on:
   push:
