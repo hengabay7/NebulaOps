@@ -20,8 +20,10 @@ jobs:
 
       - name: Load kubeconfig securely
         run: |
-          echo "${{ secrets.KUBE_CONFIG_B64 }}" | base64 -d > "$KUBECONFIG"
+          printf '%s' "${{ secrets.KUBE_CONFIG_B64 }}" > kubeconfig.b64
+          base64 -d kubeconfig.b64 > "$KUBECONFIG"
           chmod 600 "$KUBECONFIG"
+          rm -f kubeconfig.b64
 
       - name: Deploy manifests to Kubernetes
         run: |
