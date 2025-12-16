@@ -18,6 +18,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+
+      - name: Sanity check kubeconfig
+        run: |
+          kubectl config get-contexts
+          kubectl cluster-info
+
       - name: Load kubeconfig securely
         run: |
           printf '%s' "${{ secrets.KUBE_CONFIG_B64 }}" > kubeconfig.b64
