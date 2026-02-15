@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     permissions:
       contents: read
@@ -15,24 +15,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Load kubeconfig securely
+      - name: Verify cluster access
         shell: bash
         run: |
           set -euo pipefail
-          echo "${{ secrets.KUBE_CONFIG_B64 }}" | base64 -d > kubeconfig
-          chmod 600 kubeconfig
-          echo "KUBECONFIG=$PWD/kubeconfig" >> $GITHUB_ENV
-
-      - name: Verify cluster access
-        run: |
           kubectl version --client
-          kubectl config get-contexts
+          kubectl config current-context
+          kubectl get nodes
           kubectl cluster-info
 
       - name: Deploy manifests
+        shell: bash
         run: |
+          set -euo pipefail
+          ls -la
+          ls -la k8s
           kubectl apply -f k8s/
-
-      - name: Cleanup kubeconfig
-        if: always()
-        run: rm -f kubeconfig
