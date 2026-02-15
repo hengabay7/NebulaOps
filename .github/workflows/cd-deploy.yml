@@ -1,4 +1,4 @@
-name: CD- Deploy to Kubernetes
+name: CD - Deploy to Kubernetes
 
 on:
   push:
@@ -11,30 +11,28 @@ jobs:
     permissions:
       contents: read
 
-    env:
-      KUBECONFIG: ${{ github.workspace }}/kubeconfig
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-
-      - name: Sanity check kubeconfig
+      - name: Load kubeconfig securely
+        shell: bash
         run: |
+          set -euo pipefail
+          echo "${{ secrets.KUBE_CONFIG_B64 }}" | base64 -d > kubeconfig
+          chmod 600 kubeconfig
+          echo "KUBECONFIG=$PWD/kubeconfig" >> $GITHUB_ENV
+
+      - name: Verify cluster access
+        run: |
+          kubectl version --client
           kubectl config get-contexts
           kubectl cluster-info
 
-      - name: Load kubeconfig securely
-        run: |
-          printf '%s' "${{ secrets.KUBE_CONFIG_B64 }}" > kubeconfig.b64
-          base64 -d kubeconfig.b64 > "$KUBECONFIG"
-          chmod 600 "$KUBECONFIG"
-          rm -f kubeconfig.b64
-
-      - name: Deploy manifests to Kubernetes
+      - name: Deploy manifests
         run: |
           kubectl apply -f k8s/
 
       - name: Cleanup kubeconfig
         if: always()
-        run: rm -f "$KUBECONFIG"
+        run: rm -f kubeconfig
